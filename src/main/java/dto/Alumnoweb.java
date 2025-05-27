@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Alumnoweb.findByNombEstdWeb", query = "SELECT a FROM Alumnoweb a WHERE a.nombEstdWeb = :nombEstdWeb"),
     @NamedQuery(name = "Alumnoweb.findByFechNaciEstdWeb", query = "SELECT a FROM Alumnoweb a WHERE a.fechNaciEstdWeb = :fechNaciEstdWeb"),
     @NamedQuery(name = "Alumnoweb.findByLogiEstd", query = "SELECT a FROM Alumnoweb a WHERE a.logiEstd = :logiEstd"),
+    @NamedQuery(name = "Alumnoweb.findByNdni", query = "SELECT a FROM Alumnoweb a WHERE a.ndniEstdWeb = :ndni"),
+    @NamedQuery(name = "Alumnoweb.validar", query = "SELECT a FROM Alumnoweb a WHERE  a.ndniEstdWeb = :ndniEstdWeb and a.passEstd = :passEstd"),
     @NamedQuery(name = "Alumnoweb.findByPassEstd", query = "SELECT a FROM Alumnoweb a WHERE a.passEstd = :passEstd")})
 public class Alumnoweb implements Serializable {
 

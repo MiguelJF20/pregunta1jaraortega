@@ -12,8 +12,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -24,7 +27,10 @@ public class AlumnowebJpaController implements Serializable {
     public AlumnowebJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Preg01_war_1.0-SNAPSHOTPU");
+
+    public AlumnowebJpaController() {
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -133,5 +139,24 @@ public class AlumnowebJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    // Luego añade este método a tu clase AlumnowebJpaController
+    public Alumnoweb validarAlumno(String ndni, String passwordPlano) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNamedQuery("Alumnoweb.findByNdniEstdWeb");
+            query.setParameter("ndniEstdWeb", ndni);
+            Alumnoweb alumno = (Alumnoweb) query.getSingleResult();
+
+            // Comparación segura con bcrypt
+            if (alumno != null && BCrypt.checkpw(passwordPlano, alumno.getPassEstd())) {
+                return alumno;
+            }
+            return null;
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }
